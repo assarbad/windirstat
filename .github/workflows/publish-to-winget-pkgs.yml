@@ -10,7 +10,7 @@ jobs:
         id: get-version
         run: |
           # Finding the version from release name
-          $VERSION="${{ github.ref_name }}" -replace '^.*/'
+          $VERSION="${{ github.ref_name }}" -replace '^.*/v?'
           "version=$VERSION" >> $env:GITHUB_OUTPUT
         shell: pwsh
       - uses: vedantmgoyal9/winget-releaser@main
