@@ -38,8 +38,8 @@ bool CItemTop::DrawSubitem(const int subitem, CDC* pdc, const CRect rc, const UI
 std::wstring CItemTop::GetText(const int subitem) const
 {
     // Root node
-    static std::wstring duplicates = Localization::Lookup(IDS_LARGEST_FILES);
-    if (GetParent() == nullptr) return subitem == COL_ITEMTOP_NAME ? duplicates : std::wstring{};
+    static std::wstring tops = Localization::Lookup(IDS_LARGEST_FILES);
+    if (GetParent() == nullptr) return subitem == COL_ITEMTOP_NAME ? tops : std::wstring{};
 
     // Parent hash nodes
     if (m_Item == nullptr) return {};

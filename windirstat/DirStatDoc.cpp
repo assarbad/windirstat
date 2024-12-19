@@ -187,6 +187,7 @@ void CDirStatDoc::DeleteContents()
     delete m_RootItemTop;
     delete m_RootItem;
     m_RootItemDupe = nullptr;
+    m_RootItemTop = nullptr;
     m_RootItem = nullptr;
     m_ZoomItem = nullptr;
     CDirStatApp::Get()->ReReadMountPoints();

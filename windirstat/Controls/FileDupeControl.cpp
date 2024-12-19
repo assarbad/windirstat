@@ -289,6 +289,10 @@ void CFileDupeControl::SetRootItem(CTreeListItem* root)
         delete item;
     }
 
+    // Clear out any pending visual updates
+    while (!m_PendingListAdds.empty())
+        m_PendingListAdds.pop();
+
     m_NodeTracker.clear();
     m_HashTracker.clear();
     m_SizeTracker.clear();

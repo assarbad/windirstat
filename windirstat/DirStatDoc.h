@@ -163,7 +163,6 @@ protected:
     CItem* m_RootItem = nullptr; // The very root item
     CItemDupe* m_RootItemDupe = nullptr; // The very root dupe item
     CItemTop* m_RootItemTop = nullptr; // The very root top item
-
     std::wstring m_HighlightExtension; // Currently highlighted extension
     CItem* m_ZoomItem = nullptr;   // Current "zoom root"
 

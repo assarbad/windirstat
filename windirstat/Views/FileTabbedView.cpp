@@ -44,7 +44,7 @@ int CFileTabbedView::OnCreate(const LPCREATESTRUCT lpCreateStruct)
     m_FileTopViewIndex = AddView(RUNTIME_CLASS(CFileTopView), Localization::Lookup(IDS_LARGEST_FILES).c_str(), CHAR_MAX);
     m_FileTopView = DYNAMIC_DOWNCAST(CFileTopView, GetTabControl().GetTabWnd(m_FileTopViewIndex));
     m_FileDupeViewIndex = AddView(RUNTIME_CLASS(CFileDupeView), Localization::Lookup(IDS_DUPLICATE_FILES).c_str(), CHAR_MAX);
-    m_FileDupeView = DYNAMIC_DOWNCAST(CFileDupeView, GetTabControl().GetTabWnd(m_FileTopViewIndex));
+    m_FileDupeView = DYNAMIC_DOWNCAST(CFileDupeView, GetTabControl().GetTabWnd(m_FileDupeViewIndex));
     GetTabControl().ModifyTabStyle(CMFCTabCtrl::STYLE_3D_ONENOTE);
 
     return 0;

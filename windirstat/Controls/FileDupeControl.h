@@ -55,8 +55,8 @@ public:
         for (POSITION pos = GetFirstSelectedItemPosition(); pos != nullptr;)
         {
             const int i = GetNextSelectedItem(pos);
-            array.push_back(reinterpret_cast<T*>(
-                reinterpret_cast<CItemDupe*>(GetItem(i))->GetItem()));
+            auto item = reinterpret_cast<T*>(reinterpret_cast<CItemDupe*>(GetItem(i))->GetItem());
+            if (item != nullptr) array.emplace_back(item);
         }
         return array;
     }

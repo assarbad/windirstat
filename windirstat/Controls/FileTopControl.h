@@ -46,8 +46,8 @@ public:
         for (POSITION pos = GetFirstSelectedItemPosition(); pos != nullptr;)
         {
             const int i = GetNextSelectedItem(pos);
-            array.push_back(reinterpret_cast<T*>(
-                reinterpret_cast<CItemTop*>(GetItem(i))->GetItem()));
+            auto item = reinterpret_cast<T*>(reinterpret_cast<CItemTop*>(GetItem(i))->GetItem());
+            if (item != nullptr) array.emplace_back(item);
         }
         return array;
     }
@@ -56,6 +56,7 @@ protected:
 
     static CFileTopControl* m_Singleton;
     std::mutex m_SizeMutex;
+    std::map<ULONGLONG, std::unordered_set<CItem*>> m_SizeMap;
     std::unordered_map<CItem*, CItemTop*> m_ItemTracker;
 
     void OnItemDoubleClick(int i) override;

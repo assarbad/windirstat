@@ -848,14 +848,13 @@ void CMainFrame::OnTimer(const UINT_PTR nIDEvent)
         CFileTreeControl::Get()->SortItems();
 
         // Conditionally sort duplicates
-        const auto activeTab = GetFileTabbedView()->GetTabControl().GetActiveTab();
-        if (COptions::ScanForDuplicates && DoInfrequentUpdate() && activeTab == 2)
+        if (COptions::ScanForDuplicates && DoInfrequentUpdate() && GetFileTabbedView()->IsFileDupeViewTabActive())
         {
             CFileDupeControl::Get()->SortItems();
         }
 
         // Conditionally sort duplicates
-        if (DoInfrequentUpdate() && activeTab == 1)
+        if (DoInfrequentUpdate() && GetFileTabbedView()->IsFileTopViewTabActive())
         {
             CFileTopControl::Get()->SortItems();
         }

@@ -28,6 +28,7 @@
 #include "Localization.h"
 
 #include <ranges>
+#include <stack>
 
 CFileTopControl::CFileTopControl() : CTreeListControl(20, COptions::TopViewColumnOrder.Ptr(), COptions::TopViewColumnWidths.Ptr())
 {
@@ -50,7 +51,6 @@ END_MESSAGE_MAP()
 #pragma warning(pop)
 
 CFileTopControl* CFileTopControl::m_Singleton = nullptr;
-std::map<ULONGLONG, std::unordered_set<CItem*>> m_SizeMap;
 
 void CFileTopControl::ProcessTop(CItem * item)
 {
@@ -61,6 +61,9 @@ void CFileTopControl::ProcessTop(CItem * item)
 void CFileTopControl::SortItems()
 {
     ASSERT(AfxGetThread() != nullptr);
+
+    // Verify at least root exists
+    if (GetItemCount() == 0) return;
 
     // Reverse iterate over the multimap
     m_SizeMutex.lock();
@@ -100,8 +103,26 @@ void CFileTopControl::SortItems()
 
 void CFileTopControl::RemoveItem(CItem* item)
 {
-    std::lock_guard guard(m_SizeMutex);
-    m_SizeMap[item->GetSizeLogical()].erase(item);
+    std::stack<CItem*> queue({ item });
+    while (!queue.empty())
+    {
+        const auto& qitem = queue.top();
+        queue.pop();
+        if (qitem->IsType(IT_FILE))
+        {
+            m_SizeMap[qitem->GetSizeLogical()].erase(qitem);
+        }
+        else for (const auto& child : qitem->GetChildren())
+        {
+            queue.push(child);
+        }
+    }
+
+    // Use the sort function to remove visual items
+    CMainFrame::Get()->InvokeInMessageThread([&]
+    {
+        SortItems();
+    });
 }
 
 void CFileTopControl::OnItemDoubleClick(const int i)
