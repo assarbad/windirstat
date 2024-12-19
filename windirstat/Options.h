@@ -103,6 +103,7 @@ class COptions
     static LPCWSTR OptionsFileTree;
     static LPCWSTR OptionsDupeTree;
     static LPCWSTR OptionsExtView;
+    static LPCWSTR OptionsTopView;
     static LPCWSTR OptionsDriveSelect;
 
 public:
@@ -160,6 +161,7 @@ public:
     static Setting<int> ConfigPage;
     static Setting<int> FollowReparsePointMask;
     static Setting<int> LanguageId;
+    static Setting<int> LargeFileCount;
     static Setting<int> ScanningThreads;
     static Setting<int> SelectDrivesRadio;
     static Setting<int> FileTreeColorCount;
@@ -181,7 +183,9 @@ public:
     static Setting<std::vector<int>> FileTreeColumnOrder;
     static Setting<std::vector<int>> FileTreeColumnWidths;
     static Setting<std::vector<int>> ExtViewColumnOrder;
-    static Setting<std::vector<int>> ExtViewColumnWidth;
+    static Setting<std::vector<int>> ExtViewColumnWidths;
+    static Setting<std::vector<int>> TopViewColumnOrder;
+    static Setting<std::vector<int>> TopViewColumnWidths;
     static Setting<std::vector<std::wstring>> SelectDrivesDrives;
     static Setting<std::wstring> FilteringExcludeDirs;
     static Setting<std::wstring> FilteringExcludeFiles;

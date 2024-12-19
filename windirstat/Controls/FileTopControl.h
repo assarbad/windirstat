@@ -1,4 +1,4 @@
-// FileDupeControl.h - Declaration of CFileDupeControl and CFileTreeView
+// FileTopControl.h - Declaration of CFileTopControl and CFileTreeView
 //
 // WinDirStat - Directory Statistics
 // Copyright (C) 2003-2005 Bernhard Seifert
@@ -21,34 +21,24 @@
 
 #pragma once
 
-#include "ItemDupe.h"
+#include "ItemTop.h"
 #include "TreeListControl.h"
 
-#include <unordered_map>
 #include <unordered_set>
-#include <shared_mutex>
-#include <queue>
+#include <map>
+#include <vector>
+#include <mutex>
 
-class CFileDupeControl final : public CTreeListControl
+class CFileTopControl final : public CTreeListControl
 {
 public:
-    CFileDupeControl();
+    CFileTopControl();
     bool GetAscendingDefault(int column) override;
-    static CFileDupeControl* Get() { return m_Singleton; }
-    void InsertItem(int i, CTreeListItem* item);
+    static CFileTopControl* Get() { return m_Singleton; }
     void SetRootItem(CTreeListItem* root) override;
-    void ProcessDuplicate(CItem* item, BlockingQueue<CItem*>* queue);
+    void ProcessTop(CItem* item);
     void RemoveItem(CItem* items);
     void SortItems() override;
-
-    std::shared_mutex m_HashTrackerMutex;
-    std::unordered_map<ULONGLONG, std::unordered_set<CItem*>> m_SizeTracker;
-    std::unordered_map<std::wstring, std::unordered_set<CItem*>> m_HashTracker;
-
-    std::shared_mutex m_NodeTrackerMutex;
-    std::unordered_map<std::wstring, CItemDupe*> m_NodeTracker;
-    std::unordered_map<CItemDupe*, std::unordered_set<CItem*>> m_ChildTracker;
-    std::queue<std::pair<CItemDupe*, CItemDupe*>> m_PendingListAdds;
 
     template <class T = CTreeListItem> std::vector<T*> GetAllSelected()
     {
@@ -57,22 +47,20 @@ public:
         {
             const int i = GetNextSelectedItem(pos);
             array.push_back(reinterpret_cast<T*>(
-                reinterpret_cast<CItemDupe*>(GetItem(i))->GetItem()));
+                reinterpret_cast<CItemTop*>(GetItem(i))->GetItem()));
         }
         return array;
     }
 
 protected:
 
-    static CFileDupeControl* m_Singleton;
-    bool m_ShowCloudWarningOnThisScan = false;
-    
+    static CFileTopControl* m_Singleton;
+    std::mutex m_SizeMutex;
+    std::unordered_map<CItem*, CItemTop*> m_ItemTracker;
+
     void OnItemDoubleClick(int i) override;
-    void PrepareDefaultMenu(CMenu* menu, const CItemDupe* item) const;
 
     DECLARE_MESSAGE_MAP()
-    afx_msg void OnLvnItemchangingList(NMHDR* pNMHDR, LRESULT* pResult);
-    afx_msg void OnContextMenu(CWnd* /*pWnd*/, CPoint /*point*/);
     afx_msg void OnSetFocus(CWnd* pOldWnd);
     afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
 };

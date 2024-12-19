@@ -24,6 +24,7 @@
 #include "stdafx.h"
 #include "FileTreeView.h"
 #include "FileDupeView.h"
+#include "FileTopView.h"
 
 class CFileTabbedView : public CTabView
 {
@@ -39,6 +40,9 @@ protected:
     int m_FileDupeViewIndex = -1;
     CFileDupeView* m_FileDupeView = nullptr;
     CFileDupeView* GetFileDupeView() const { return m_FileDupeView; }
+    int m_FileTopViewIndex = -1;
+    CFileTopView* m_FileTopView = nullptr;
+    CFileTopView* GetFileTopView() const { return m_FileTopView; }
 
     afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
     afx_msg BOOL OnEraseBkgnd(CDC* pDC);
